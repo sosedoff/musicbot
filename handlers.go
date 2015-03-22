@@ -21,7 +21,7 @@ func setupCommands(bot *Bot) {
 	bot.addCommand("^clear$", Clear)
 	bot.addCommand("^state$", State)
 	bot.addCommand("^(vol|volume)$", Volume)
-	bot.addCommand("^(vol|volume) (.*)", SetVolume)
+	bot.addCommand("^(vol|volume) (up|down|[0-9]+)$", SetVolume)
 }
 
 func Help(bot *Bot, match *Match) {
