@@ -9,6 +9,7 @@ bootstrap:
 
 setup:
 	go get github.com/mitchellh/gox
+	go get
 
 clean:
 	rm -f ./musicbox

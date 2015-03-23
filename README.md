@@ -46,6 +46,36 @@ Install the package:
 go get github.com/sosedoff/musicbot
 ```
 
+### Compile from source
+
+Clone repository run setup task:
+
+```
+make setup
+```
+
+Build a binary for current OS:
+
+```
+make build
+```
+
+Build binaries for OSX (amd64), Linux (amd64/arm):
+
+```
+make release
+```
+
+You'll see the output:
+
+```
+Number of parallel builds: 8
+
+-->     linux/amd64: github.com/sosedoff/musicbot
+-->       linux/arm: github.com/sosedoff/musicbot
+-->    darwin/amd64: github.com/sosedoff/musicbot
+```
+
 ## Usage
 
 To run the bot, start it with a few environment variables:
