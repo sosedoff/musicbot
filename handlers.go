@@ -95,7 +95,9 @@ func Tracks(bot *Bot, match *Match) {
 	}
 
 	lines := make([]string, len(tracks))
-	for i, track := range tracks {
+
+	// For now just print 5 tracks. Slack will cut WS if you try to send a lot of data.
+	for i, track := range tracks[0:5] {
 		if track.Uri == current {
 			lines[i] = fmt.Sprintf("*%d. %s*", i+1, track.String())
 		} else {
