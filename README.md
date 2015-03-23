@@ -1,4 +1,4 @@
-# MusicBot
+# musicbot
 
 Play music from Slack: Raspberry Pi + Mopidy + Spotify
 
@@ -37,3 +37,7 @@ List of all available commands:
 - `clear`                    - Remote all tracks from playlist
 - `vol|volume`               - Get current volume
 - `vol|volume (up|down|num)` - Change volume
+
+## License
+
+MIT
