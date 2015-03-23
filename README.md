@@ -19,6 +19,8 @@ systems including Raspberry PI. Even an old RPi model A with 256 Mb RAM should b
 good enough. Musicbot itself has a very small memory footprint and is distributed
 as a precompiled binary.
 
+<img src="screen.png" width="400px" />
+
 ## Commands
 
 List of all available commands:
