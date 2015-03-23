@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"os"
+
+	"github.com/sosedoff/musicbot/bot"
 )
 
 func main() {
@@ -21,7 +23,7 @@ func main() {
 		return
 	}
 
-	bot := NewBot(BotConfig{
+	bot := bot.NewBot(bot.BotConfig{
 		MopidyHost: os.Getenv("MOPIDY_HOST"),
 		SlackToken: os.Getenv("SLACK_TOKEN"),
 		Channel:    os.Getenv("SLACK_CHANNEL"),
