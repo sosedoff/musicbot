@@ -96,8 +96,13 @@ func Tracks(bot *Bot, match *Match) {
 
 	lines := make([]string, len(tracks))
 
-	// For now just print 5 tracks. Slack will cut WS if you try to send a lot of data.
-	for i, track := range tracks[0:5] {
+	// For now just print 10 tracks. Slack will cut WS if you try to send a lot of data.
+	num := len(tracks)
+	if num > 10 {
+		num = 10
+	}
+
+	for i, track := range tracks[0:num] {
 		if track.Uri == current {
 			lines[i] = fmt.Sprintf("*%d. %s*", i+1, track.String())
 		} else {
@@ -157,7 +162,7 @@ func Play(bot *Bot, match *Match) {
 
 	lines := make([]string, len(result.Tracks.Items))
 	for i, track := range result.Tracks.Items {
-		lines[i] = fmt.Sprintf("%s - %s", track.Name, track.Album.Name)
+		lines[i] = fmt.Sprintf("%v. %s - %s", i+1, track.Name, track.Album.Name)
 	}
 
 	bot.Say("Added tracks:\n" + strings.Join(lines, "\n"))

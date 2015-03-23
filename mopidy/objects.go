@@ -40,5 +40,5 @@ type SearchResult struct {
 }
 
 func (t Track) String() string {
-	return fmt.Sprintf("%s - %s - %s", t.Name, t.Album.Name, t.Artists[0].Name)
+	return fmt.Sprintf("%s - %s", t.Name, t.Artists[0].Name)
 }
