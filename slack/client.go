@@ -184,7 +184,7 @@ func (s *Client) SendMessage(channel string, text string) error {
 	return s.ws.WriteJSON(msg)
 }
 
-func (s *Client) Start(receiver chan Event) {
+func (s *Client) Run(receiver chan Event) {
 	for {
 		event := json.RawMessage{}
 

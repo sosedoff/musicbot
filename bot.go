@@ -120,5 +120,5 @@ func (bot *Bot) Run() {
 	go bot.handleMopidyEvents()
 
 	go bot.mopidy.Run(bot.mopidyEvent)
-	go bot.slack.Start(bot.slackEvent)
+	go bot.slack.Run(bot.slackEvent)
 }
