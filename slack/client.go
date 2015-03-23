@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"time"
 
 	"github.com/gorilla/websocket"
 )
@@ -190,11 +191,13 @@ func (s *Client) Run(receiver chan Event) {
 
 		err := s.ws.ReadJSON(&event)
 		if err != nil {
-			fmt.Printf("WS Error:", err)
-			return
+			fmt.Println("Websocket error:", err)
+			time.Sleep(time.Second * 3)
+			if s.Connect() != nil {
+				return
+			}
 		}
 
-		fmt.Printf("%s\n", event)
 		s.handleEvent(receiver, event)
 	}
 }
