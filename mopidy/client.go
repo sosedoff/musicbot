@@ -76,8 +76,6 @@ func (m *Client) Call(command string, params interface{}) (interface{}, error) {
 		return nil, err
 	}
 
-	fmt.Printf("***\n%s\n***\n", body)
-
 	var r Response
 	if err := json.NewDecoder(bytes.NewReader(body)).Decode(&r); err != nil {
 		return nil, err
@@ -137,7 +135,6 @@ func (mopidy *Client) Run(receiver chan Event) {
 			return
 		}
 
-		fmt.Printf("%s\n", event)
 		mopidy.handleEvent(receiver, event)
 	}
 }

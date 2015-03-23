@@ -81,10 +81,7 @@ func Search(options SearchOptions) (*SearchResult, error) {
 		return nil, err
 	}
 
-	fmt.Printf("%s\n", body)
-
 	result := SearchResult{}
-
 	err = json.Unmarshal(body, &result)
 	if err != nil {
 		return nil, err

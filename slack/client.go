@@ -170,8 +170,6 @@ func (s *Client) handleEvent(receiver chan Event, data json.RawMessage) {
 		receiver <- Event{Data: HelloEvent{}}
 	case "message":
 		s.handleMessageEvent(receiver, data)
-	default:
-		fmt.Println("Unhandled event:", event.Type)
 	}
 }
 
