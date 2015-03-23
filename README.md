@@ -38,6 +38,25 @@ List of all available commands:
 - `vol|volume`               - Get current volume
 - `vol|volume (up|down|num)` - Change volume
 
+## Install
+
+Install the package:
+
+```
+go get github.com/sosedoff/musicbot
+```
+
+## Usage
+
+To run the bot, start it with a few environment variables:
+
+```
+MOPIDY_HOST=mopidyhost:port \
+SLACK_TOKEN=yourtoken \
+SLACK_ROOM=music \
+musicbot
+```
+
 ## License
 
 MIT
