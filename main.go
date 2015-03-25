@@ -4,29 +4,40 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/jessevdk/go-flags"
 	"github.com/sosedoff/musicbot/bot"
 )
 
+var options struct {
+	MopidyHost   string `long:"mopidy" description:"Mopidy server host:port" env:"MOPIDY_HOST"`
+	SlackToken   string `long:"slack-token" description:"Slack integration token" env:"SLACK_TOKEN"`
+	SlackChannel string `long:"slack-channel" description:"Slack channel name" default:"general" env:"SLACK_CHANNEL"`
+	Debug        bool   `short:"d" long:"debug" description:"Enable debugging mode" default:"false"`
+}
+
+func init() {
+	_, err := flags.ParseArgs(&options, os.Args)
+
+	if err != nil {
+		os.Exit(1)
+	}
+
+	if options.MopidyHost == "" {
+		fmt.Println("Error: Mopidy host is not provided")
+		os.Exit(1)
+	}
+
+	if options.SlackToken == "" {
+		fmt.Println("Error: Slack token is not provided")
+		os.Exit(1)
+	}
+}
+
 func main() {
-	if os.Getenv("MOPIDY_HOST") == "" {
-		fmt.Println("MOPIDY_HOST is not provided")
-		return
-	}
-
-	if os.Getenv("SLACK_TOKEN") == "" {
-		fmt.Println("SLACK_TOKEN is not provided")
-		return
-	}
-
-	if os.Getenv("SLACK_CHANNEL") == "" {
-		fmt.Println("SLACK_CHANNEL is not provided")
-		return
-	}
-
 	bot := bot.NewBot(bot.BotConfig{
-		MopidyHost: os.Getenv("MOPIDY_HOST"),
-		SlackToken: os.Getenv("SLACK_TOKEN"),
-		Channel:    os.Getenv("SLACK_CHANNEL"),
+		MopidyHost: options.MopidyHost,
+		SlackToken: options.SlackToken,
+		Channel:    options.SlackChannel,
 	})
 
 	bot.Run()
