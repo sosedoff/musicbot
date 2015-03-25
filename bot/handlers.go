@@ -154,23 +154,34 @@ func Play(bot *Bot, match *Match) {
 		return
 	}
 
+	// If player is stopped we should clear old track list so that playback will s
+	// start with only new tracks. This is needed to keep the track list small.
+	state, _ := bot.mopidy.State()
+	if state == "stopped" {
+		bot.mopidy.ClearTracklist()
+	}
+
 	err = bot.mopidy.AddSpotifyTracks(result.Tracks.Items)
 	if err != nil {
 		bot.Say("Cant add tracks to the queue")
 		return
 	}
 
+	// Start playback only if player is stopped.
+	state, _ = bot.mopidy.State()
+	if state == "stopped" {
+		bot.mopidy.Play()
+	}
+
+	// Build a string that only includes 10 tracks. Its a dirty hack to make sure
+	// that amount of data sent to slack stays low, otherwise slack will terminate
+	// websocket connection. TODO: need a better way of handing this.
 	lines := make([]string, len(result.Tracks.Items))
 	for i, track := range result.Tracks.Items {
 		lines[i] = fmt.Sprintf("%v. %s - %s", i+1, track.Name, track.Album.Name)
 	}
 
 	bot.Say("Added tracks:\n" + strings.Join(lines, "\n"))
-
-	state, _ := bot.mopidy.State()
-	if state == "stopped" {
-		bot.mopidy.Play()
-	}
 }
 
 func Volume(bot *Bot, match *Match) {
