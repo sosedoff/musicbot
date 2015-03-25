@@ -216,8 +216,8 @@ func SetVolume(bot *Bot, match *Match) {
 		}
 	}
 
-	if vol > 100 || vol < 0 {
-		bot.Say("Volume range is 0-100")
+	if vol > 110 || vol < 0 {
+		bot.Say("Volume range is 0-110")
 		return
 	}
 
