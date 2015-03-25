@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"os/signal"
 
 	"github.com/jessevdk/go-flags"
 	"github.com/sosedoff/musicbot/bot"
@@ -33,6 +34,12 @@ func init() {
 	}
 }
 
+func handleSignals() {
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt, os.Kill)
+	<-c
+}
+
 func main() {
 	bot := bot.NewBot(bot.BotConfig{
 		MopidyHost: options.MopidyHost,
@@ -41,8 +48,5 @@ func main() {
 	})
 
 	bot.Run()
-
-	// dummy
-	chexit := make(chan bool)
-	<-chexit
+	handleSignals()
 }
