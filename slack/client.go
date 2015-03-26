@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"time"
 
@@ -56,6 +57,7 @@ type Client struct {
 
 func (s *Client) getSocketUrl() (string, error) {
 	url := fmt.Sprintf("https://slack.com/api/rtm.start?token=%s", s.token)
+
 	resp, err := http.Get(url)
 	if err != nil {
 		return "", err
@@ -102,13 +104,17 @@ func (s *Client) Close() {
 }
 
 func (s *Client) Connect() error {
+	log.Println("Connecting to Slack API...")
 	url, err := s.getSocketUrl()
 	if err != nil {
+		log.Println("Error:", err)
 		return err
 	}
 
+	log.Println("Connecting to Slack Websocket")
 	ws, _, err := dialer.Dial(url, nil)
 	if err != nil {
+		log.Println("Error:", err)
 		return err
 	}
 

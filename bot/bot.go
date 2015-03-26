@@ -12,6 +12,7 @@ type BotConfig struct {
 	Channel    string
 	SlackToken string
 	MopidyHost string
+	Debug      bool
 }
 
 type Bot struct {

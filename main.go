@@ -45,6 +45,7 @@ func main() {
 		MopidyHost: options.MopidyHost,
 		SlackToken: options.SlackToken,
 		Channel:    options.SlackChannel,
+		Debug:      options.Debug,
 	})
 
 	bot.Run()
