@@ -5,9 +5,6 @@ type Event struct {
 	Data interface{}
 }
 
-type TrackPlaybackPausedEvent struct {
-}
-
 type VolumeChangedEvent struct {
 	Volume int `json:"volume"`
 }
