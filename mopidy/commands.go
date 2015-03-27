@@ -43,8 +43,8 @@ func (m *Client) State() (string, error) {
 	return resp.Result.(string), nil
 }
 
-func (mopidy *Client) CurrentTrack() (*Track, error) {
-	data, err := mopidy.Call("core.playback.get_current_track", nil)
+func (m *Client) CurrentTrack() (*Track, error) {
+	data, err := m.Call("core.playback.get_current_track", nil)
 	if err != nil || data == nil {
 		return nil, err
 	}
