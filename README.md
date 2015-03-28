@@ -40,6 +40,8 @@ List of all available commands:
 
 ## Install
 
+You can download a precompiled binary for your OS from  [Github Releases](https://github.com/sosedoff/musicbot/releases)
+
 Install the package:
 
 ```
