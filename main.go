@@ -50,10 +50,10 @@ func handleSignals() {
 
 func main() {
 	bot := bot.NewBot(bot.BotConfig{
-		MopidyHost: options.MopidyHost,
-		SlackToken: options.SlackToken,
-		Channel:    options.SlackChannel,
-		Debug:      options.Debug,
+		MopidyHost:   options.MopidyHost,
+		SlackToken:   options.SlackToken,
+		SlackChannel: options.SlackChannel,
+		Debug:        options.Debug,
 	})
 
 	bot.Run()

@@ -9,10 +9,10 @@ import (
 )
 
 type BotConfig struct {
-	Channel    string
-	SlackToken string
-	MopidyHost string
-	Debug      bool
+	SlackChannel string
+	SlackToken   string
+	MopidyHost   string
+	Debug        bool
 }
 
 type Bot struct {
@@ -100,7 +100,7 @@ func (bot *Bot) addCommand(expr string, handler HandlerFunc) {
 }
 
 func (bot *Bot) Say(text string) {
-	err := bot.slack.SendMessage(bot.config.Channel, text)
+	err := bot.slack.SendMessage(bot.config.SlackChannel, text)
 	if err != nil {
 		fmt.Println("Error:", err)
 	}
