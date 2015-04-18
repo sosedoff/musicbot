@@ -204,7 +204,7 @@ func Volume(bot *Bot, match *Match) {
 		return
 	}
 
-	bot.Say(fmt.Sprintf("Volume: %v%s", vol, "%"))
+	bot.Say(fmt.Sprintf("Current volume: %v%s", vol, "%"))
 }
 
 func SetVolume(bot *Bot, match *Match) {
