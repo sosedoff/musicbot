@@ -75,6 +75,7 @@ func (bot *Bot) handleMopidyEvents() {
 		case mopidy.TrackPlaybackStarted:
 			data := ev.Data.(mopidy.TrackPlaybackStarted)
 			track := data.TlTrack.Track
+			log.Printf("Playing track: %s - %s", track.Uri, track.String())
 			bot.Say(fmt.Sprintf(":musical_note: %s", track.String()))
 		case mopidy.VolumeChangedEvent:
 			data := ev.Data.(mopidy.VolumeChangedEvent)
