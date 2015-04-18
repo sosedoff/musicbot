@@ -9,16 +9,16 @@ import (
 )
 
 var usage = `
-help - Print commands
-current - Show current track
-next|skip - Play next track
-pause|resume|stop - Control playback
-play <query> - Play 10 tracks that match query
-tracks|list - Show tracks in queue
-clear - Remove all tracks and stop playback
-state - Get player state
-vol|volume - Get current volume level
-vol|volume up|down|0-100 - Set volume level
+#help# - Print commands
+#current# - Show current track
+#next|skip# - Play next track
+#pause|resume|stop# - Control playback
+#play <query># - Play 10 tracks that match query
+#tracks|list# - Show tracks in queue
+#clear# - Remove all tracks and stop playback
+#state# - Get player state
+#vol|volume# - Get current volume level
+#vol|volume up|down|0-100# - Set volume level
 `
 
 func setupCommands(bot *Bot) {
@@ -38,7 +38,7 @@ func setupCommands(bot *Bot) {
 }
 
 func Help(bot *Bot, match *Match) {
-	bot.Say(strings.TrimSpace(usage))
+	bot.Say(strings.TrimSpace(strings.Replace(usage, "#", "`", -1)))
 }
 
 func CurrentTrack(bot *Bot, match *Match) {
