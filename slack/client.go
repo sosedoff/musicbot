@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/gorilla/websocket"
@@ -23,6 +24,7 @@ type Client struct {
 	users      map[string]*User
 	channels   map[string]*Channel
 	channelIds map[string]string
+	debug      bool
 }
 
 func NewClient(token string) *Client {
@@ -32,11 +34,12 @@ func NewClient(token string) *Client {
 		users:      map[string]*User{},
 		channels:   map[string]*Channel{},
 		channelIds: map[string]string{},
+		debug:      os.Getenv("DEBUG") != "",
 	}
 }
 
 func (s *Client) Connect() error {
-	log.Println("Connecting to Slack API...")
+	log.Println("Connecting to Slack API")
 	url, err := s.getSocketUrl()
 	if err != nil {
 		log.Println("Error:", err)
@@ -129,6 +132,10 @@ func (s *Client) handleMessageEvent(receiver chan Event, data json.RawMessage) {
 
 func (s *Client) handleEvent(receiver chan Event, data json.RawMessage) {
 	event := Event{}
+
+	if s.debug {
+		log.Printf("Slack event: %s\n", data)
+	}
 
 	err := json.Unmarshal(data, &event)
 	if err != nil {
