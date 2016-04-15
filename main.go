@@ -15,7 +15,7 @@ var options struct {
 	MopidyHost   string `long:"mopidy" description:"Mopidy server host:port" env:"MOPIDY_HOST"`
 	SlackToken   string `long:"slack-token" description:"Slack integration token" env:"SLACK_TOKEN"`
 	SlackChannel string `long:"slack-channel" description:"Slack channel name" default:"general" env:"SLACK_CHANNEL"`
-	Debug        bool   `short:"d" long:"debug" description:"Enable debugging mode" default:"false"`
+	Debug        bool   `short:"d" long:"debug" description:"Enable debugging mode"`
 	Version      bool   `short:"v" long:"version" description:"Print version"`
 }
 
