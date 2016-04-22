@@ -97,6 +97,10 @@ Help Options:
   -h, --help           Show this help message
 ```
 
+**IMPORTANT**
+
+Please make sure you create a BOT slack tocket, not a regular web hook token.
+
 ## License
 
 MIT
