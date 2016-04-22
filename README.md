@@ -99,7 +99,7 @@ Help Options:
 
 **IMPORTANT**
 
-Please make sure you create a BOT slack tocket, not a regular web hook or a slash command token.
+Please make sure you create a BOT slack token, not a regular web hook or a slash command token.
 Those tokens do not work for RTM (real-time messages) via Slack's websockets.
 
 ## License
