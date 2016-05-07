@@ -39,7 +39,7 @@ func NewClient(token string) *Client {
 }
 
 func (s *Client) Connect() error {
-	log.Println("Connecting to Slack API")
+	log.Println("Connecting to Slack API -- hello world")
 	url, err := s.getSocketUrl()
 	if err != nil {
 		log.Println("Error:", err)
@@ -73,6 +73,7 @@ func (s *Client) Close() {
 }
 
 func (s *Client) SendMessage(channel string, text string) error {
+	fmt.Println("channelId is", s.channelIds[channel])
 	msg := map[string]string{
 		"type":    "message",
 		"channel": s.channelIds[channel],
@@ -99,7 +100,7 @@ func (s *Client) Run(receiver chan Event) {
 	}
 }
 
-func parseMessage(data json.RawMessage) (Message, error) {
+func (s *Client) parseMessage(data json.RawMessage) (Message, error) {
 	msg := Message{}
 
 	err := json.Unmarshal(data, &msg)
@@ -107,11 +108,13 @@ func parseMessage(data json.RawMessage) (Message, error) {
 		return msg, err
 	}
 
+	msg.Channel = s.channels[msg.ChannelId]
+
 	return msg, nil
 }
 
 func (s *Client) handleMessageEvent(receiver chan Event, data json.RawMessage) {
-	msg, err := parseMessage(data)
+	msg, err := s.parseMessage(data)
 	if err != nil {
 		fmt.Println("Err:", err)
 		return
@@ -178,6 +181,11 @@ func (s *Client) getSocketUrl() (string, error) {
 	for _, channel := range rtm.Channels {
 		s.channels[channel.Id] = channel
 		s.channelIds[channel.Name] = channel.Id
+	}
+
+	for _, group := range rtm.Groups {
+		s.channels[group.Id] = group
+		s.channelIds[group.Name] = group.Id
 	}
 
 	return rtm.Url, nil

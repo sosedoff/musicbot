@@ -89,6 +89,10 @@ func (bot *Bot) handleMopidyEvents() {
 }
 
 func (bot *Bot) handleMessage(msg *slack.Message) {
+	if (msg.Channel != nil && msg.Channel.Name != bot.config.SlackChannel) {
+		fmt.Println("ignoreing message from other chan")
+		return
+	}
 	for _, cmd := range bot.commands {
 		match := cmd.Match(msg.Text)
 

@@ -21,11 +21,13 @@ type RtmResponse struct {
 	Team     Team       `json:"team"`
 	Users    []*User    `json:"users"`
 	Channels []*Channel `json:"channels"`
+	Groups   []*Channel `json:"groups"`
 }
 
 type Message struct {
 	User      *User    `json:"-"`
 	Channel   *Channel `json:"-"`
+	ChannelId string   `json:"channel"`
 	Text      string   `json:"text"`
 	Timestamp string   `json:"ts"`
 }
