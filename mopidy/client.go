@@ -6,7 +6,9 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
+	"os"
 
 	rpc "github.com/gorilla/rpc/v2/json2"
 	"github.com/gorilla/websocket"
@@ -18,15 +20,17 @@ var dialer = websocket.Dialer{
 }
 
 type Client struct {
-	url  string
-	rpc  string
-	conn *websocket.Conn
+	url   string
+	rpc   string
+	conn  *websocket.Conn
+	debug bool
 }
 
 func New(host string) *Client {
 	return &Client{
-		url: fmt.Sprintf("ws://%s/mopidy/ws", host),
-		rpc: fmt.Sprintf("http://%s/mopidy/rpc", host),
+		url:   fmt.Sprintf("ws://%s/mopidy/ws", host),
+		rpc:   fmt.Sprintf("http://%s/mopidy/rpc", host),
+		debug: os.Getenv("DEBUG") != "",
 	}
 }
 
@@ -131,8 +135,12 @@ func (mopidy *Client) Run(receiver chan Event) {
 
 		err := mopidy.conn.ReadJSON(&event)
 		if err != nil {
-			fmt.Println("WS Error:", err)
+			log.Println("Websocket error:", err)
 			return
+		}
+
+		if mopidy.debug {
+			log.Printf("Mopidy event: %s\n", event)
 		}
 
 		mopidy.handleEvent(receiver, event)

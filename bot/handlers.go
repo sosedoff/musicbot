@@ -8,6 +8,19 @@ import (
 	"github.com/sosedoff/musicbot/spotify"
 )
 
+var usage = `
+#help# - Print commands
+#current# - Show current track
+#next|skip# - Play next track
+#pause|resume|stop# - Control playback
+#play <query># - Play 10 tracks that match query
+#tracks|list# - Show tracks in queue
+#clear# - Remove all tracks and stop playback
+#state# - Get player state
+#vol|volume# - Get current volume level
+#vol|volume up|down|0-100# - Set volume level
+`
+
 func setupCommands(bot *Bot) {
 	bot.addCommand("^help$", Help)
 	bot.addCommand("^current$", CurrentTrack)
@@ -25,7 +38,7 @@ func setupCommands(bot *Bot) {
 }
 
 func Help(bot *Bot, match *Match) {
-	bot.Say("Not implemented")
+	bot.Say(strings.TrimSpace(strings.Replace(usage, "#", "`", -1)))
 }
 
 func CurrentTrack(bot *Bot, match *Match) {
@@ -154,23 +167,34 @@ func Play(bot *Bot, match *Match) {
 		return
 	}
 
+	// If player is stopped we should clear old track list so that playback will s
+	// start with only new tracks. This is needed to keep the track list small.
+	state, _ := bot.mopidy.State()
+	if state == "stopped" {
+		bot.mopidy.ClearTracklist()
+	}
+
 	err = bot.mopidy.AddSpotifyTracks(result.Tracks.Items)
 	if err != nil {
 		bot.Say("Cant add tracks to the queue")
 		return
 	}
 
+	// Start playback only if player is stopped.
+	state, _ = bot.mopidy.State()
+	if state == "stopped" {
+		bot.mopidy.Play()
+	}
+
+	// Build a string that only includes 10 tracks. Its a dirty hack to make sure
+	// that amount of data sent to slack stays low, otherwise slack will terminate
+	// websocket connection. TODO: need a better way of handing this.
 	lines := make([]string, len(result.Tracks.Items))
 	for i, track := range result.Tracks.Items {
 		lines[i] = fmt.Sprintf("%v. %s - %s", i+1, track.Name, track.Album.Name)
 	}
 
 	bot.Say("Added tracks:\n" + strings.Join(lines, "\n"))
-
-	state, _ := bot.mopidy.State()
-	if state == "stopped" {
-		bot.mopidy.Play()
-	}
 }
 
 func Volume(bot *Bot, match *Match) {
@@ -180,7 +204,7 @@ func Volume(bot *Bot, match *Match) {
 		return
 	}
 
-	bot.Say(fmt.Sprintf("Volume: %v%s", vol, "%"))
+	bot.Say(fmt.Sprintf("Current volume: %v%s", vol, "%"))
 }
 
 func SetVolume(bot *Bot, match *Match) {
@@ -205,8 +229,8 @@ func SetVolume(bot *Bot, match *Match) {
 		}
 	}
 
-	if vol > 100 || vol < 0 {
-		bot.Say("Volume range is 0-100")
+	if vol > 110 || vol < 0 {
+		bot.Say("Volume range is 0-110")
 		return
 	}
 

@@ -40,6 +40,8 @@ List of all available commands:
 
 ## Install
 
+You can download a precompiled binary for your OS from  [Github Releases](https://github.com/sosedoff/musicbot/releases)
+
 Install the package:
 
 ```
@@ -78,14 +80,27 @@ Number of parallel builds: 8
 
 ## Usage
 
-To run the bot, start it with a few environment variables:
+All available options and environment variables:
 
 ```
-MOPIDY_HOST=mopidyhost:port \
-SLACK_TOKEN=yourtoken \
-SLACK_ROOM=music \
-musicbot
+Usage:
+  musicbot [OPTIONS]
+
+Application Options:
+      --mopidy=        Mopidy server host:port [$MOPIDY_HOST]
+      --slack-token=   Slack integration token [$SLACK_TOKEN]
+      --slack-channel= Slack channel name (general) [$SLACK_CHANNEL]
+  -d, --debug          Enable debugging mode (false)
+  -v, --version        Print version
+
+Help Options:
+  -h, --help           Show this help message
 ```
+
+**IMPORTANT**
+
+Please make sure you create a BOT slack token, not a regular web hook or a slash command token.
+Those tokens do not work for RTM (real-time messages) via Slack's websockets.
 
 ## License
 
